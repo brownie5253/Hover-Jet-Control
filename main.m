@@ -4,7 +4,7 @@ clear all
 close all
 
 %% Parameters
-Aircraft_parameters_10486925();
+Aircraft_parameters();
 
 %% Controller design
 point = "A";
@@ -36,30 +36,30 @@ use_state = 0;
 use_output = 1;
 
 %run Outputfeedback sim ( Q = 5, poles = 10x)
-Lin_Sim2 = sim('Linear_System_10486925','Solver','ode4','FixedStep','h','StopTime','stoptime');
-NL_Sim2 = sim('NL_System_10486925','Solver','ode4','FixedStep','h','StopTime','stoptime');
+Lin_Sim2 = sim('Linear_System','Solver','ode4','FixedStep','h','StopTime','stoptime');
+NL_Sim2 = sim('NL_System','Solver','ode4','FixedStep','h','StopTime','stoptime');
 
 use_state = 1;
 use_output = 0;
 
 %Run state-feedback ( Q = 5, poles = 10x)
-Lin_Sim1 = sim('Linear_System_10486925','Solver','ode4','FixedStep','h','StopTime','stoptime');
-NL_Sim1 = sim('NL_System_10486925','Solver','ode4','FixedStep','h','StopTime','stoptime');
+Lin_Sim1 = sim('Linear_System','Solver','ode4','FixedStep','h','StopTime','stoptime');
+NL_Sim1 = sim('NL_System','Solver','ode4','FixedStep','h','StopTime','stoptime');
 
 %Q=1
 Q = eye(6);
 [K,~,~] = lqr(A,B,Q,R);
-Lin_Sim3 = sim('Linear_System_10486925','Solver','ode4','FixedStep','h','StopTime','stoptime');
+Lin_Sim3 = sim('Linear_System','Solver','ode4','FixedStep','h','StopTime','stoptime');
 
 %Q=10
 Q = eye(6)*10;
 [K,~,~] = lqr(A,B,Q,R);
-Lin_Sim4 = sim('Linear_System_10486925','Solver','ode4','FixedStep','h','StopTime','stoptime');
+Lin_Sim4 = sim('Linear_System','Solver','ode4','FixedStep','h','StopTime','stoptime');
 
 %Q=15
 Q = eye(6)*15;
 [K,~,~] = lqr(A,B,Q,R);
-Lin_Sim5 = sim('Linear_System_10486925','Solver','ode4','FixedStep','h','StopTime','stoptime');
+Lin_Sim5 = sim('Linear_System','Solver','ode4','FixedStep','h','StopTime','stoptime');
 
 %% plot results
 
@@ -160,21 +160,5 @@ for ii = 1:8
 end
 
 %% animation 
- Aircraft_Animation_10486925(Lin_Sim1.tout, Lin_Sim1.x(:,1), Lin_Sim1.x(:,2), Lin_Sim1.x(:,3), x_bar(1), x_bar(2), x_bar(3))
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+ Aircraft_Animation(Lin_Sim1.tout, Lin_Sim1.x(:,1), Lin_Sim1.x(:,2), Lin_Sim1.x(:,3), x_bar(1), x_bar(2), x_bar(3))
 
